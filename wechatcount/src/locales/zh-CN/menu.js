@@ -1,10 +1,7 @@
 export default {
-    'menu.systemManage': '系统管理',
-    'menu.adminManage': '人员管理',
-    'menu.systemManage.userManage': '用户管理',
-    'menu.systemManage.userManage.detail': '用户详细信息',
-    'menu.systemManage.coupon': '优惠券',
-    'menu.personalCenter': '个人中心',
+    'menu.home': '首页',
+    'menu.qq': 'QQ',
+    'menu.wechat': '微信',
     'menu.login': '登录',
     'menu.register': '注册',
     'menu.register.result': '注册结果',

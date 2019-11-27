@@ -31,16 +31,16 @@ export default {
     },
 
     reducers: {
+        /** */
+        changeLayoutCollapsed(state, { payload }) {
+            return {
+                ...state,
+                collapsed: payload,
+            };
+        },
         /** 更新数据 */
         setState(state, { payload }) {
             return { ...state, ...payload };
-        },
-    },
-
-    subscriptions: {
-        /** 获取全局信息 */
-        getGlobal({ dispatch }) {
-            dispatch({ type: 'global/getGlobalInfo' });
         },
     },
 };

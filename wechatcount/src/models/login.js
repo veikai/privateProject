@@ -1,6 +1,6 @@
 import router from 'umi/router';
 import { message } from 'antd';
-import { login, getToken, logOut } from '@/services/login';
+import { login, register, logOut } from '@/services/login';
 import { setAuthority } from '@/utils/authority';
 import { reloadAuthorized } from '@/utils/Authorized';
 
@@ -11,28 +11,33 @@ export default {
 
     effects: {
         /** USER登录方法 */
-        * login({ payload, callBack = null }, { call, put }) {
+        * login({ payload, callBack = null }, { call }) {
             const response = yield call(login, payload);
             // 登录成功
-            if (response.code === 200) {
+            if (response.code === 1) {
                 /** 设置权限 */
                 setAuthority(response.role);
                 reloadAuthorized(response.role);
-                message.success('登录成功！');
-                /** 更新全局信息 */
-                yield put({ type: 'global/getGlobalInfo' });
+                message.success('登录成功');
                 if (callBack) callBack();
             } else {
-                message.error('登录失败！');
+                message.error('登录失败');
             }
         },
-        /** 生成token */
-        * getToken({ payload, callBack }, { call }) {
-            const response = yield call(getToken, payload);
-            if (response.code == 200) {
-                if (callBack) callBack(response);
+        /** USER注册方法 */
+        * register({ payload, callBack = null }, { call }) {
+            const response = yield call(register, payload);
+            // 登录成功
+            if (response.code === 1) {
+                /** 设置权限 */
+                setAuthority(response.role);
+                reloadAuthorized(response.role);
+                message.success('注册成功');
+                /** 更新全局信息 */
+                router.push('/login');
+                if (callBack) callBack();
             } else {
-                message.error('跳转失败，请重试！');
+                message.error(response.err);
             }
         },
         /** 注销 */
@@ -51,4 +56,5 @@ export default {
             return { ...state, ...payload };
         },
     },
+
 };

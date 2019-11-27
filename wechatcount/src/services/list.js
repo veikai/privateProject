@@ -1,21 +1,11 @@
 import request from '@/utils/request';
 
 /**
- * login 登录
+ * getList 获取列表
  * @author Terrence
- * @param string name [用户名]
- * @param string password [密码]
  */
-export async function login(params) {
-    const { name, password } = params;
-    return request('http://106.14.21.166:8080/login', {
-        method: 'POST',
-        data: JSON.stringify({
-            usr: name,
-            pwd: password,
-            type: 2,
-        }),
-    });
+export async function getList() {
+    return request('http://106.14.21.166:8080/query_fans_data', { method: 'POST' });
 }
 
 /**

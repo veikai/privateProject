@@ -1,7 +1,7 @@
 export default [
-    // User
+    /** login 登录页 */
     {
-        path: '/',
+        path: '/login',
         component: '../layouts/UserLayout',
         routes: [
             {
@@ -21,62 +21,26 @@ export default [
             { component: './404.js' },
         ],
     },
-    // app
+    /** 管理列表页 */
     {
         path: '/',
         component: '../layouts/BasicLayout',
         routes: [
             {
                 path: '/',
-                redirect: '/systemManage/userManage',
-                authority: ['admin', 'super', 'agent', 'customer'],
+                redirect: '/home',
             },
             {
-                path: '/systemManage',
-                name: 'systemManage',
+                path: '/home',
+                name: 'home',
                 icon: 'home',
-                component: './SystemManage',
-                authority: ['admin', 'super', 'agent', 'customer'],
-                routes: [
-                    {
-                        path: '/systemManage',
-                        redirect: '/systemManage/userManage',
-                    },
-                    {
-                        path: '/systemManage/userManage',
-                        name: 'userManage',
-                        component: './SystemManage/UserManage/List',
-                        hideChildrenInMenu: true,
-                        routes: [
-                            {
-                                path: '/systemManage/userManage/detail',
-                                component: './SystemManage/UserManage/Detail',
-                                name: 'detail',
-                            },
-                        ],
-                    },
-                    {
-                        path: '/systemManage/coupon',
-                        name: 'coupon',
-                        component: './SystemManage/Coupon',
-                        authority: ['admin', 'super', 'agent'],
-                        hideChildrenInMenu: true,
-                    },
-                ],
+                component: './Home',
             },
             {
-                path: '/adminManage',
-                name: 'adminManage',
-                authority: ['super'],
-                icon: 'team',
-                component: './AdminManage',
-            },
-            {
-                path: '/personalCenter',
-                name: 'personalCenter',
-                authority: ['admin', 'super', 'agent', 'super'],
-                component: './PersonalCenter',
-                hideInMenu: true,
+                path: '/list/wechat',
+                name: 'wechat',
+                icon: 'wechat',
+                component: './List/Wechat',
             },
             { component: './404.js' },
         ],

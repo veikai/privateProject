@@ -10,7 +10,7 @@ module.exports = {
     title: '微信计数器',
     pwa: false,
     // logo: '../public',
-    logo: './app.png',
+    // logo: './app.png',
     // icon: '//q.zvk9.com/393/2019/04/21/aiyongtonpal_1555833832000.png',
     // Your custom iconfont Symbol script Url
     // eg：//at.alicdn.com/t/font_1039637_btcrd5co4w.js

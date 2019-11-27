@@ -5,7 +5,6 @@
 import { extend } from 'umi-request';
 import { notification } from 'antd';
 import router from 'umi/router';
-import { ajaxDecrypt, jsonDecode } from '@/utils/common';
 
 const codeMessage = {
     200: '服务器成功返回请求的数据。',
@@ -34,7 +33,7 @@ const errorHandler = (error) => {
     const { status, url } = response;
 
     if (status === 401) {
-        notification.error({ message: '未登录或登录已过期，请重新登录。' });
+        notification.error({ message: '' });
         // @HACK
         /* eslint-disable no-underscore-dangle */
         window.g_app._store.dispatch({ type: 'tonpalgs/logout' });
@@ -63,7 +62,7 @@ const errorHandler = (error) => {
  * 配置request请求时的默认参数
  */
 const request = extend({
-    requestType: 'form',
+    // requestType: 'form',
     errorHandler, // 默认错误处理
     credentials: 'include', // 默认请求是否带上cookie
 });
@@ -83,10 +82,11 @@ request.use(async (ctx, next) => {
     };
     await next();
     const { res } = ctx;
-    /** 如果是字符串,进行数据解密 */
-    if (typeof (res) == 'string') {
-        ctx.res = jsonDecode(ajaxDecrypt(res, 'bcmm4catqb'));
+    if (res.code == -1) {
+        notification.error({ message: '登录失效,重新登录' });
+        router.push('/login');
     }
 });
+
 
 export default request;

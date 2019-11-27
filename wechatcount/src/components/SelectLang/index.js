@@ -15,15 +15,9 @@ export default class SelectLang extends PureComponent {
     render() {
         const { className } = this.props;
         const selectedLang = getLocale();
-        const locales = ['zh-CN', 'zh-TW', 'en-US', 'pt-BR'];
-        const languageLabels = {
-            'zh-CN': '简体中文',
-            'en-US': 'English',
-        };
-        const languageIcons = {
-            'zh-CN': '🇨🇳',
-            'en-US': '🇬🇧',
-        };
+        const locales = ['zh-CN'];
+        const languageLabels = { 'zh-CN': '简体中文' };
+        const languageIcons = { 'zh-CN': '🇨🇳' };
         const langMenu = (
             <Menu className={styles.menu} selectedKeys={[selectedLang]} onClick={this.changeLang}>
                 {locales.map(locale => (
