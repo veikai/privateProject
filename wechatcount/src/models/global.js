@@ -17,10 +17,10 @@ export default {
         /** 获取全局信息 */
         * getGlobalInfo(_, { call, put }) {
             const response = yield call(getGlobalInfo);
-            const { result: { admin = [], admins = [], packages = [] } } = response;
+            const { data = [] } = response;
             yield put({
                 type: 'setState',
-                payload: { admin, admins, packages },
+                payload: { data },
             });
         },
         /** 获取当前用户的角色(用于权限管理) */
@@ -43,4 +43,10 @@ export default {
             return { ...state, ...payload };
         },
     },
+    // subscriptions: {
+    //     /** 获取全局信息 */
+    //     getGlobal({ dispatch }) {
+    //         dispatch({ type: 'global/getGlobalInfo' });
+    //     },
+    // },
 };
