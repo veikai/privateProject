@@ -1,4 +1,5 @@
 import { message } from 'antd';
+import moment from 'moment';
 
 /**
  * isEmpty [判断一个值是否为空]
@@ -106,4 +107,22 @@ export function copy(content = '') {
     // 根据返回的复制结果 给用户不同的提示
     if (copyResult) message.success('复制成功');
     else message.success('复制失败');
+}
+
+
+/**
+ * runTimeFormat 对运行时间进行格式化
+ * @author Terrence
+ * @param {string} time [时间戳]
+ * @return {string} 返回的时间字符串
+ */
+export function runTimeFormat(time = 0) {
+    const date = moment.duration(time, 'milliseconds');
+    const { _data: { seconds = 0, minutes = 0, hours = 0, days = 0 } } = date;
+    let result = '';
+    if (days) result += `${days}日`;
+    result += `${hours}时`;
+    result += `${minutes}分`;
+    result += `${seconds}秒`;
+    return result;
 }

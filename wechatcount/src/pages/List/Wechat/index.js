@@ -3,6 +3,7 @@ import { Button, Table, Select, Card, Form, Input, Divider, Tag } from 'antd';
 import { connect } from 'dva';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import { runTimeFormat } from '@/utils/common';
 
 const { Option } = Select;
 const { Search } = Input;
@@ -26,7 +27,16 @@ class List extends PureComponent {
         { title: '标注', align: 'center', dataIndex: 'tag', width: 80 },
         { title: '已加粉', align: 'center', dataIndex: 'fans_count', width: 80 },
         { title: '上线时间', align: 'center', width: 180, dataIndex: 'login_time', render: text => moment(text).format('YYYY-MM-DD HH:mm:ss') },
-        { title: '已运行', align: 'center', dataIndex: 'run_time' },
+        {
+            title: '已运行',
+            align: 'center',
+            dataIndex: 'run_time',
+            width: 180,
+            render: (text, record) => {
+                if (record.state == 0) return runTimeFormat(record.logout_time - record.login_time);
+                return runTimeFormat(new Date() - record.logout_time);
+            },
+        },
         { title: '离线时间', dataIndex: 'logout_time', align: 'center', render: text => (text > 0 ? moment(text).format('YYYY-MM-DD HH:mm:ss') : '-') },
         {
             title: '状态',
