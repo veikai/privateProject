@@ -3,7 +3,7 @@ import { Button, Table, Select, Card, Form, Input, Divider, Tag } from 'antd';
 import { connect } from 'dva';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { runTimeFormat } from '@/utils/common';
+import { runTimeFormat, isEmpty } from '@/utils/common';
 
 const { Option } = Select;
 const { Search } = Input;
@@ -20,7 +20,7 @@ const { Search } = Input;
 class List extends PureComponent {
     /** table标题 */
     columns = [
-        { title: '编号', align: 'center', dataIndex: 'wxid', width: 200 },
+        { title: '编号', align: 'center', dataIndex: 'wechatid', width: 200 },
         { title: '分组', align: 'center', dataIndex: 'group', width: 100 },
         { title: '微信昵称', align: 'center', dataIndex: 'nickname', width: 100 },
         { title: '备注', align: 'center', dataIndex: 'remark', width: 200 },
@@ -31,10 +31,13 @@ class List extends PureComponent {
             title: '已运行',
             align: 'center',
             dataIndex: 'run_time',
-            width: 180,
+            width: 130,
             render: (text, record) => {
-                if (record.state == 0) return runTimeFormat(record.logout_time - record.login_time);
-                return runTimeFormat(new Date() - record.logout_time);
+                if (!isEmpty(text)) {
+                    if (record.state == 0) return runTimeFormat(record.logout_time - record.login_time);
+                    return runTimeFormat(new Date() - record.login_time);
+                }
+                return runTimeFormat(text);
             },
         },
         { title: '离线时间', dataIndex: 'logout_time', align: 'center', render: text => (text > 0 ? moment(text).format('YYYY-MM-DD HH:mm:ss') : '-') },
