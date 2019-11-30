@@ -20,11 +20,9 @@ class UserLayout extends Component {
                 <Col
                     span={6}
                     offset={9}
-                    style={{ overflow: 'hidden', height: '100vh' }}
+                    style={{ overflow: 'hidden', height: '100vh', paddingTop: 50 }}
                 >
-                    <div style={{ position: 'relative', top: '30%', transform: 'translateY(-50%)' }}>
-                        {children}
-                    </div>
+                    {children}
                 </Col>
             </Row>
         );

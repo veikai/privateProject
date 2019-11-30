@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Button } from 'antd';
+import { Button, Icon } from 'antd';
 import { connect } from 'dva';
 import PropTypes from 'prop-types';
 import router from 'umi/router';
@@ -32,13 +32,19 @@ class IndexLogin extends PureComponent {
                 onSubmit={this.onSubmit}
             >
                 <Tab key="passwordLogin" tab="微信计数器">
-                    <UserName name="name" placeholder="账户" rules={[{ required: true, message: '请输入用户名' }]} />
+                    <UserName
+                        name="name"
+                        placeholder="账户"
+                        prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                        rules={[{ required: true, message: '请输入用户名' }]}
+                    />
                     <Password name="password" placeholder="密码" />
                 </Tab>
                 <Submit>登录</Submit>
                 <div style={{ textAlign: 'right' }}>
                     {'没有账号？'}
                     <Button type="link" onClick={() => router.push('/login/register')}>立即注册</Button>
+                    <Button type="link" onClick={() => router.push('/login/register')}>软件下载</Button>
                 </div>
             </Login>
         );

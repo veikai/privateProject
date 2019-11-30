@@ -7,13 +7,14 @@ import request from '@/utils/request';
  * @param string password [密码]
  */
 export async function login(params) {
-    const { name, password } = params;
+    const { name = '', password = '', mobile = '' } = params;
     return request('http://106.14.21.166:8080/login', {
         method: 'POST',
         data: JSON.stringify({
             usr: name,
             pwd: password,
             type: 2,
+            mobile,
         }),
     });
 }

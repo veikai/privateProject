@@ -87,6 +87,31 @@ export function clearSession() {
 }
 
 /**
+ * 存储 Storage
+ */
+export function setStorage(name, content) {
+    if (isEmpty(name)) return false;
+    if (typeof content !== 'string') {
+        return window.localStorage.setItem(name, JSON.stringify(content));
+    }
+    return window.localStorage.setItem(name, content);
+}
+/**
+ * 获取 Storage
+ */
+export function getStorage(name) {
+    if (!name) return '';
+    return window.localStorage.getItem(name) ? window.localStorage.getItem(name) : '';
+}
+/**
+ * 清除 Storage
+ */
+export function clearStorage(name) {
+    if (isEmpty(name)) window.localStorage.clear();
+    window.localStorage.removeItem(name);
+}
+
+/**
  * copy [进行复制]
  * @author Terrence
  * @param {string} content [复制的文本内容]

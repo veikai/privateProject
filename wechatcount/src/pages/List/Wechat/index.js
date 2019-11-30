@@ -74,25 +74,20 @@ class List extends PureComponent {
                 { name: '在线', color: '#87d068' },
             ],
         };
-    }
-
-    /** 组件即将加载 */
-    componentWillMount() {
         this.onLoad();
     }
 
     /** 数据加载 */
-    onLoad = () => {
+    onLoad = async () => {
         const { dispatch } = this.props;
-        dispatch({ type: 'list/getList' });
+        await dispatch({ type: 'list/getList' });
     }
 
     /** 获取分享链接 */
     getShareUrl = async () => {
         const { code = 0, url = '' } = await getShareUrl();
-        if (code == 1) {
-            copy(url);
-        }
+        /** 复制 */
+        if (code == 1) copy(url);
     }
 
     /** 组件挂载 */
@@ -124,7 +119,7 @@ class List extends PureComponent {
                     columns={this.columns}
                     loading={loading}
                     dataSource={list}
-                    rowKey={row => row.id}
+                    rowKey={row => row.wxid}
                     rowSelection={{
                         selected,
                         onChange: val => this.setState({ selected: val }),

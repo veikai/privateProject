@@ -2,10 +2,10 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'dva';
 import { router } from 'umi';
-import { Button, message } from 'antd';
+import { Button, message, Icon } from 'antd';
 import Login from '@/components/Login';
 
-const { Tab, Password, Submit, UserName } = Login;
+const { Tab, Password, Submit, UserName, Mobile } = Login;
 /** 连接dva */
 @connect()
 /** 首页注册 */
@@ -13,7 +13,7 @@ class LoginRegister extends PureComponent {
     /** 进行注册 */
     onSubmit = (err, values) => {
         const { dispatch } = this.props;
-        const { name, password, confirmPassword } = values;
+        const { name, mobile, password, confirmPassword } = values;
         /** 如果规则没有报错 */
         if (!err) {
             /** 验证密码 */
@@ -21,7 +21,7 @@ class LoginRegister extends PureComponent {
             /** 进行注册 */
             dispatch({
                 type: 'login/register',
-                payload: { name, password },
+                payload: { name, password, mobile },
                 callBack: (response) => {
                     if (response.code == 200) {
                         message.success('注册成功');
@@ -42,7 +42,13 @@ class LoginRegister extends PureComponent {
                 onSubmit={this.onSubmit}
             >
                 <Tab key="register" tab="微信计数器">
-                    <UserName name="name" placeholder="输入用户名" rules={[{ required: true, message: '请输入用户名' }]} />
+                    <UserName
+                        name="name"
+                        placeholder="输入用户名"
+                        prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                        rules={[{ required: true, message: '请输入用户名' }]}
+                    />
+                    <Mobile name="mobile" placeholder="请输入电话" rules={[{ required: true, message: '请输入电话' }]} />
                     <Password name="password" placeholder="输入密码" />
                     <Password name="confirmPassword" placeholder="再次输入密码" />
                     <Submit>注册</Submit>

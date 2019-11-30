@@ -35,7 +35,7 @@ export default {
     subscriptions: {
         /** 获取列表信息 */
         initList({ dispatch }) {
-            dispatch({ type: 'list/getList' });
+            dispatch({ type: 'getList' });
         },
     },
 };
