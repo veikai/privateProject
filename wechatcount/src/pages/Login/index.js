@@ -44,7 +44,12 @@ class IndexLogin extends PureComponent {
                 <div style={{ textAlign: 'right' }}>
                     {'没有账号？'}
                     <Button type="link" onClick={() => router.push('/login/register')}>立即注册</Button>
-                    <Button type="link" onClick={() => router.push('/login/register')}>软件下载</Button>
+                    <Button
+                        type="link"
+                        onClick={() => window.open('http://119.23.79.73:9527/lancher.exe')}
+                    >
+                        软件下载
+                    </Button>
                 </div>
             </Login>
         );

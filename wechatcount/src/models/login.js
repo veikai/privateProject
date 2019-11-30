@@ -43,7 +43,7 @@ export default {
         /** 注销 */
         * logOut(_, { call }) {
             const response = yield call(logOut);
-            if (response.code == 200) {
+            if (response.code == 1) {
                 message.success('您已退出');
                 router.push('/login');
             }

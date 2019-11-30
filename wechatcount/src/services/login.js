@@ -7,14 +7,13 @@ import request from '@/utils/request';
  * @param string password [密码]
  */
 export async function login(params) {
-    const { name = '', password = '', mobile = '' } = params;
-    return request('http://106.14.21.166:8080/login', {
+    const { name = '', password = '' } = params;
+    return request('http://119.23.79.73:8080/login', {
         method: 'POST',
         data: JSON.stringify({
             usr: name,
             pwd: password,
             type: 2,
-            mobile,
         }),
     });
 }
@@ -24,14 +23,16 @@ export async function login(params) {
  * @author Terrence
  * @param string name [用户名]
  * @param string password [密码]
+ * @param string mobile [电话号码]
  */
 export async function register(params) {
-    const { name, password } = params;
-    return request('http://106.14.21.166:8080/register', {
+    const { name, password, mobile } = params;
+    return request('http://119.23.79.73:8080/register', {
         method: 'POST',
         data: JSON.stringify({
             usr: name,
             pwd: password,
+            phone_num: mobile,
         }),
     });
 }
@@ -42,5 +43,5 @@ export async function register(params) {
  * @author Terrence
  */
 export async function logOut() {
-    return request('/login/logOut', { method: 'GET' });
+    return request('http://119.23.79.73:8080/logout', { method: 'POST' });
 }

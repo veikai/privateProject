@@ -1,13 +1,16 @@
 import React, { PureComponent } from 'react';
-import { Button, Table, Select, Card, Form, Input, Divider, Tag } from 'antd';
+import { Button, Table, Select, Card, Form, Input, Tag, message, Modal, Descriptions } from 'antd';
 import { connect } from 'dva';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { runTimeFormat, isEmpty, copy } from '@/utils/common';
-import { getShareUrl } from '@/services/list';
+import { runTimeFormat, isEmpty, copy, emptyOrBlank } from '@/utils/common';
+import { getShareUrl, delOffline, getFansCount, addCategory, getCategorys, enterCategoryService } from '@/services/list';
+
+import Categorys from './Categorys';
 
 const { Option } = Select;
 const { Search } = Input;
+const { success, confirm } = Modal;
 
 /** 连接dva */
 @connect(({
@@ -55,13 +58,7 @@ class List extends PureComponent {
             key: 'action',
             align: 'center',
             width: 190,
-            render: () => (
-                <span>
-                    <Button icon="star" type="link" size="small">标注</Button>
-                    <Divider type="vertical" />
-                    <Button icon="user" type="link" size="small">加粉</Button>
-                </span>
-            ),
+            render: () => <Button icon="star" type="link" size="small">标注</Button>,
         },
     ]
 
@@ -80,7 +77,8 @@ class List extends PureComponent {
     /** 数据加载 */
     onLoad = async () => {
         const { dispatch } = this.props;
-        await dispatch({ type: 'list/getList' });
+        const { searchKey = '', state = '' } = this.state;
+        await dispatch({ type: 'list/getList', payload: { searchKey, state } });
     }
 
     /** 获取分享链接 */
@@ -90,30 +88,129 @@ class List extends PureComponent {
         if (code == 1) copy(url);
     }
 
+    /** 删除离线账号 */
+    delOffline = async () => {
+        const { code = 0, err = '' } = await delOffline();
+        if (code == 1) {
+            message.success('删除成功');
+            return setTimeout(() => this.onLoad(), 1000);
+        }
+        return message.error(err);
+    }
+
+    /** 统计粉丝数量 */
+    getFansCount = async () => {
+        const { selected = [] } = this.state;
+        const response = await getFansCount({ ids: selected });
+        const { code = 0, err = '' } = response;
+        const fansTotal = emptyOrBlank(response, 'total_fans', 0);
+        const wxTotal = emptyOrBlank(response, 'total_wxid', 0);
+        if (code == 1) {
+            return success({
+                title: '统计粉丝数量',
+                content: (
+                    <Descriptions>
+                        <Descriptions.Item label="共统计微信" span={1}>{fansTotal}</Descriptions.Item>
+                        <Descriptions.Item label="共累计加粉" span={1}>{wxTotal}</Descriptions.Item>
+                    </Descriptions>
+                ),
+            });
+        }
+        return message.error(err);
+    }
+
+    /** 创建分组 */
+    addCategory = () => {
+        confirm({
+            title: '创建分组',
+            okText: '确认',
+            cancelText: '取消',
+            maskClosable: true,
+            content: (
+                <Form layout="inline">
+                    <Form.Item label="分组名称">
+                        <Input onChange={e => this.setState({ addCateName: e.target.value })} />
+                    </Form.Item>
+                    <Form.Item label="分组备注">
+                        <Input onChange={e => this.setState({ addCateRemark: e.target.value })} />
+                    </Form.Item>
+                </Form>
+            ),
+            onOk: async () => {
+                const { addCateName = '', addCateRemark = '' } = this.state;
+                if (isEmpty(addCateName)) {
+                    message.warning('分组名称不能为空');
+                    return true;
+                }
+                const { code = 0, err = '' } = await addCategory({ addCateName, addCateRemark });
+                if (code == 1) {
+                    message.success('创建成功');
+                    return true;
+                }
+                message.error(err);
+                return true;
+            },
+        });
+    }
+
+    /** 加入分组 */
+    enterCategory = async () => {
+        const { selected = [] } = this.state;
+        if (isEmpty(selected)) return message.warning('请先勾选用户');
+        const { data = [] } = await getCategorys();
+        if (isEmpty(data)) return message.warning('请创建分组');
+        return confirm({
+            title: '选择加入的分组',
+            okText: '确认',
+            cancelText: '取消',
+            content: (
+                <Select
+                    style={{ marginTop: 20, width: 220 }}
+                    placeholder="请选择"
+                    onChange={val => this.setState({ enterCategory: val })}
+                >
+                    { data && data.map(item => <Option value={item.name} key={item.name}>{item.name}</Option>) }
+                </Select>
+            ),
+            onOk: async () => {
+                const { enterCategory } = this.state;
+                const { code = 0, err = '' } = await enterCategoryService({ name: enterCategory, ids: selected });
+                if (code == 1) message.success('加入成功');
+                else message.warning(err);
+            },
+        });
+    }
+
     /** 组件挂载 */
     render() {
         const { list = [], loading } = this.props;
         const { selected } = this.state;
         return (
             <Card>
+                <Categorys ref={(c) => { this.category = c; }} />
                 <Form layout="inline" style={{ marginBottom: 20 }}>
-                    <Form.Item><Search placeholder="微信昵称/备注" /></Form.Item>
                     <Form.Item>
-                        <Select placeholder="状态" style={{ minWidth: 120 }}>
+                        <Search
+                            placeholder="微信昵称/备注"
+                            onChange={e => this.setState({ searchKey: e.target.value })}
+                            onSearch={this.onLoad}
+                        />
+                    </Form.Item>
+                    <Form.Item>
+                        <Select placeholder="状态" onChange={val => this.setState({ state: val }, this.onLoad)} style={{ minWidth: 120 }}>
                             <Option value="">全部</Option>
-                            <Option value="online">在线</Option>
-                            <Option value="offline">离线</Option>
+                            <Option value="1">在线</Option>
+                            <Option value="0">离线</Option>
                         </Select>
                     </Form.Item>
                     <Form.Item><Button type="danger" icon="share-alt" onClick={this.getShareUrl}>分享</Button></Form.Item>
-                    <Form.Item><Button type="default" icon="delete">删除离线账号</Button></Form.Item>
-                    <Form.Item><Button type="danger" icon="delete">删除离线账号</Button></Form.Item>
-                    <Form.Item><Button type="primary" icon="line-chart">统计粉丝数量</Button></Form.Item>
+                    <Form.Item><Button type="danger" icon="delete" onClick={this.delOffline}>删除离线账号</Button></Form.Item>
+                    <Form.Item><Button type="primary" icon="line-chart" onClick={this.getFansCount}>统计粉丝数量</Button></Form.Item>
                 </Form>
                 <Form layout="inline" style={{ marginBottom: 20 }}>
-                    <Form.Item><Button type="default" icon="plus">创建分组</Button></Form.Item>
-                    <Form.Item><Button type="danger" icon="bars">管理分组</Button></Form.Item>
-                    <Form.Item><Button type="primary" icon="enter">加入分组</Button></Form.Item>
+                    <Form.Item><Button type="default" icon="plus" onClick={this.addCategory}>创建分组</Button></Form.Item>
+                    <Form.Item><Button type="danger" icon="bars" onClick={() => this.category.showCategorys()}>管理分组</Button></Form.Item>
+                    <Form.Item><Button type="primary" icon="enter" onClick={this.enterCategory}>加入分组</Button></Form.Item>
                 </Form>
                 <Table
                     columns={this.columns}

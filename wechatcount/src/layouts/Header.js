@@ -169,7 +169,7 @@ HeaderView.propTypes = {
 };
 
 export default connect(({ global, setting, loading }) => ({
-    currentUser: global.admin.role,
+    currentUser: global.user.account,
     collapsed: global.collapsed,
     fetchingMoreNotices: loading.effects['global/fetchMoreNotices'],
     fetchingNotices: loading.effects['global/fetchNotices'],

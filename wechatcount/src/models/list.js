@@ -32,10 +32,10 @@ export default {
         },
     },
 
-    subscriptions: {
-        /** 获取列表信息 */
-        initList({ dispatch }) {
-            dispatch({ type: 'getList' });
-        },
-    },
+    // subscriptions: {
+    //     /** 获取列表信息 */
+    //     initList({ dispatch }) {
+    //         dispatch({ type: 'getList' });
+    //     },
+    // },
 };

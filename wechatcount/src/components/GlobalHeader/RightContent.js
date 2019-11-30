@@ -1,15 +1,14 @@
 import React, { PureComponent } from 'react';
 import { FormattedMessage } from 'umi-plugin-react/locale';
-import { Tag, Menu, Icon } from 'antd';
+import { Tag, Menu, Icon, Button } from 'antd';
 import moment from 'moment';
 import groupBy from 'lodash/groupBy';
 import PropTypes from 'prop-types';
 // import NoticeIcon from '../NoticeIcon';
 // import HeaderSearch from '../HeaderSearch';
 import HeaderDropdown from '../HeaderDropdown';
-import SelectLang from '../SelectLang';
+// import SelectLang from '../SelectLang';
 import styles from './index.less';
-import { isEmpty } from '@/utils/common';
 
 /** 导航栏头部右侧内容 */
 export default class GlobalHeaderRight extends PureComponent {
@@ -80,15 +79,14 @@ export default class GlobalHeaderRight extends PureComponent {
             // eslint-disable-next-line no-unused-vars
             onNoticeClear,
             theme,
-            admin: { name = '', mobile = '' },
         } = this.props;
         // eslint-disable-next-line no-unused-vars
         const menu = (
             <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick}>
-                <Menu.Item key="userCenter">
+                {/* <Menu.Item key="userCenter">
                     <Icon type="user" />
                     <FormattedMessage id="menu.account.center" defaultMessage="account center" />
-                </Menu.Item>
+                </Menu.Item> */}
                 <Menu.Item key="logout">
                     <Icon type="logout" />
                     <FormattedMessage id="menu.account.logout" defaultMessage="logout" />
@@ -190,14 +188,23 @@ export default class GlobalHeaderRight extends PureComponent {
                 ) : (
                     <Spin size="small" style={{ marginLeft: 8, marginRight: 8 }} tip="正在努力为您获取数据中..."/>
                 )} */}
+
+                <Button
+                    type="danger"
+                    style={{ marginRight: 10, height: 32 }}
+                    // className={`${styles.action}`}
+                    onClick={() => window.open('http://119.23.79.73:9527/lancher.exe')}
+                >
+                    下载软件
+                </Button>
                 <HeaderDropdown
                     overlay={menu}
                 >
-                    <span className={`${styles.action} ${styles.account}`}>
-                        {isEmpty(name) ? mobile : name}
+                    <span className={`${styles.action} ${styles.account}`} style={{ marginRight: 10 }}>
+                        <Icon type="user" />
                     </span>
                 </HeaderDropdown>
-                <SelectLang className={styles.action} />
+                {/* <SelectLang className={styles.action} /> */}
             </div>
         );
     }
@@ -211,7 +218,6 @@ GlobalHeaderRight.defaultProps = {
     onNoticeClear: '',
     theme: '',
     dispatch: '',
-    admin: {},
 };
 GlobalHeaderRight.propTypes = {
     currentUser: PropTypes.any,
@@ -222,5 +228,4 @@ GlobalHeaderRight.propTypes = {
     theme: PropTypes.any,
     notices: PropTypes.any,
     dispatch: PropTypes.any,
-    admin: PropTypes.object,
 };

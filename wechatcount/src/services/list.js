@@ -1,26 +1,19 @@
 import request from '@/utils/request';
+import { isEmpty } from '@/utils/common';
 
 /**
  * getList 获取列表
  * @author Terrence
+ * @param string searchKey 搜索的关键词
+ * @param string state 状态筛选
  */
-export async function getList() {
-    return request('http://106.14.21.166:8080/query_fans_data', { method: 'POST' });
-}
-
-/**
- * register 注册
- * @author Terrence
- * @param string name [用户名]
- * @param string password [密码]
- */
-export async function register(params) {
-    const { name, password } = params;
-    return request('http://106.14.21.166:8080/register', {
+export async function getList(params) {
+    const { searchKey, state = '' } = params;
+    return request('http://119.23.79.73:8080/query_fans_data', {
         method: 'POST',
         data: JSON.stringify({
-            usr: name,
-            pwd: password,
+            key: searchKey,
+            state: isEmpty(state) ? '' : Number(state),
         }),
     });
 }
@@ -30,13 +23,74 @@ export async function register(params) {
  * @author Terrence
  */
 export async function getShareUrl() {
-    return request('http://106.14.21.166:8080/create_share_url', { method: 'POST' });
+    return request('http://119.23.79.73:8080/create_share_url', { method: 'POST' });
 }
 
 /**
- * logOut 退出登录
+ * delOffline 删除离线账号
  * @author Terrence
  */
-export async function logOut() {
-    return request('/login/logOut', { method: 'GET' });
+export async function delOffline() {
+    return request('http://119.23.79.73:8080/delete_offline_data', { method: 'POST' });
+}
+
+/**
+ * getFansCount 统计粉丝数量
+ * @author Terrence
+ * @param array ids 统计的账号数量
+ */
+export async function getFansCount(params) {
+    const { ids = [] } = params;
+    return request('http://119.23.79.73:8080/count_total_fans', {
+        method: 'POST',
+        data: JSON.stringify({ wxids: ids }),
+    });
+}
+
+/**
+ * addCategory 创建分组
+ * @author Terrence
+ * @param string addCateName 分组名称
+ * @param string addCateRemark 分组备注
+ */
+export async function addCategory(params) {
+    const { addCateName = '', addCateRemark = '' } = params;
+    return request('http://119.23.79.73:8080/create_group', {
+        method: 'POST',
+        data: JSON.stringify({ name: addCateName, remark: addCateRemark }),
+    });
+}
+
+/**
+ * getCategorys 查询分组
+ * @author Terrence
+ */
+export async function getCategorys() {
+    return request('http://119.23.79.73:8080/query_group', { method: 'POST' });
+}
+
+/**
+ * delCategory 删除分组
+ * @author Terrence
+ */
+export async function delCategory(params) {
+    const { name = '' } = params;
+    return request('http://119.23.79.73:8080/delete_group', {
+        method: 'POST',
+        data: JSON.stringify({ name }),
+    });
+}
+
+/**
+ * enterCategoryService 加入分组
+ * @author Terrence
+ * @param string name 分组名称
+ * @param array ids 微信账号id
+ */
+export async function enterCategoryService(params) {
+    const { ids = [], name = '' } = params;
+    return request('http://119.23.79.73:8080/add_to_group', {
+        method: 'POST',
+        data: JSON.stringify({ name, wxids: ids }),
+    });
 }
