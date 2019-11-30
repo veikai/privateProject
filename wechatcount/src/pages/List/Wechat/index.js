@@ -3,7 +3,8 @@ import { Button, Table, Select, Card, Form, Input, Divider, Tag } from 'antd';
 import { connect } from 'dva';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { runTimeFormat, isEmpty } from '@/utils/common';
+import { runTimeFormat, isEmpty, copy } from '@/utils/common';
+import { getShareUrl } from '@/services/list';
 
 const { Option } = Select;
 const { Search } = Input;
@@ -86,6 +87,14 @@ class List extends PureComponent {
         dispatch({ type: 'list/getList' });
     }
 
+    /** 获取分享链接 */
+    getShareUrl = async () => {
+        const { code = 0, url = '' } = await getShareUrl();
+        if (code == 1) {
+            copy(url);
+        }
+    }
+
     /** 组件挂载 */
     render() {
         const { list = [], loading } = this.props;
@@ -101,7 +110,7 @@ class List extends PureComponent {
                             <Option value="offline">离线</Option>
                         </Select>
                     </Form.Item>
-                    <Form.Item><Button type="danger" icon="share-alt">分享</Button></Form.Item>
+                    <Form.Item><Button type="danger" icon="share-alt" onClick={this.getShareUrl}>分享</Button></Form.Item>
                     <Form.Item><Button type="default" icon="delete">删除离线账号</Button></Form.Item>
                     <Form.Item><Button type="danger" icon="delete">删除离线账号</Button></Form.Item>
                     <Form.Item><Button type="primary" icon="line-chart">统计粉丝数量</Button></Form.Item>

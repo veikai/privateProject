@@ -28,7 +28,7 @@ export default [
         routes: [
             {
                 path: '/',
-                redirect: '/list/wechat',
+                redirect: '/home',
             },
             {
                 path: '/home',

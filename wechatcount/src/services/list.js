@@ -25,6 +25,13 @@ export async function register(params) {
     });
 }
 
+/**
+ * getShareUrl 获取分享链接
+ * @author Terrence
+ */
+export async function getShareUrl() {
+    return request('http://106.14.21.166:8080/create_share_url', { method: 'POST' });
+}
 
 /**
  * logOut 退出登录

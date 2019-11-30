@@ -105,7 +105,7 @@ export function copy(content = '') {
     // 操作中完成后 从Dom中删除创建的input
     document.body.removeChild(oInput);
     // 根据返回的复制结果 给用户不同的提示
-    if (copyResult) message.success('复制成功');
+    if (copyResult) message.success('分享链接已复制到剪切板');
     else message.success('复制失败');
 }
 

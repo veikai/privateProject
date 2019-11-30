@@ -58,6 +58,7 @@ export default {
     /** 打包文件默认输出到 tonpalgsroot */
     // base: '/tonpalgsroot/', /** html文件配置到非根目录下 */
     // publicPath: '/dist/',
+    publicPath: './',
     /** 静态资源分配到非根目录下 */
     plugins, // preview.pro.ant.design only do not use in your production ; preview.pro.ant.design 专用环境变量，请不要在你的项目中使用它。
     define: { ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION: ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION || '' },
