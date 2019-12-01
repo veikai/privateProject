@@ -231,6 +231,8 @@ class List extends PureComponent {
                         total: Number(list.length),
                         size: 'small',
                     }}
+                    showQuickJumper
+                    size="small"
                 />
             </Card>
         );

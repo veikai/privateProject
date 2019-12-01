@@ -46,7 +46,7 @@ class IndexLogin extends PureComponent {
                     <Button type="link" onClick={() => router.push('/login/register')}>立即注册</Button>
                     <Button
                         type="link"
-                        onClick={() => window.open('http://119.23.79.73:9527/lancher.exe')}
+                        onClick={() => window.open('http://www.51xiaokeai.com/download/lancher.exe')}
                     >
                         软件下载
                     </Button>

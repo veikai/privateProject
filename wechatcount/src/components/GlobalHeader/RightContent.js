@@ -193,7 +193,7 @@ export default class GlobalHeaderRight extends PureComponent {
                     type="danger"
                     style={{ marginRight: 10, height: 32 }}
                     // className={`${styles.action}`}
-                    onClick={() => window.open('http://119.23.79.73:9527/lancher.exe')}
+                    onClick={() => window.open('http://www.51xiaokeai.com/download/lancher.exe')}
                 >
                     软件下载
                 </Button>
