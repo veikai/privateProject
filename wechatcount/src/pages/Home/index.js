@@ -21,7 +21,7 @@ class Home extends PureComponent {
         return (
             <Result
                 status="success"
-                title="成功进入微信计数器"
+                title="成功进入鲁班计数器"
                 subTitle="欢迎使用"
                 style={{ marginTop: 100 }}
                 extra={[

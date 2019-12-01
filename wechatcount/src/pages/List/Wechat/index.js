@@ -110,8 +110,8 @@ class List extends PureComponent {
                 title: '统计粉丝数量',
                 content: (
                     <Descriptions>
-                        <Descriptions.Item label="共统计微信" span={1}>{fansTotal}</Descriptions.Item>
-                        <Descriptions.Item label="共累计加粉" span={1}>{wxTotal}</Descriptions.Item>
+                        <Descriptions.Item label="共统计微信" span={1}>{wxTotal}</Descriptions.Item>
+                        <Descriptions.Item label="共累计加粉" span={1}>{fansTotal}</Descriptions.Item>
                     </Descriptions>
                 ),
             });

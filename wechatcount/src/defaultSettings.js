@@ -7,7 +7,7 @@ module.exports = {
     autoHideHeader: false, // auto hide header
     fixSiderbar: false, // sticky siderbar
     menu: { disableLocal: false },
-    title: '微信计数器',
+    title: '鲁班计数器',
     pwa: false,
     logo: './account.png',
     // logo: './app.png',
