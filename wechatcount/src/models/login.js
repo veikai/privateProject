@@ -16,8 +16,8 @@ export default {
             // 登录成功
             if (response.code === 1) {
                 /** 设置权限 */
-                setAuthority(response.role);
-                reloadAuthorized(response.role);
+                setAuthority(String(response.role));
+                reloadAuthorized(String(response.role));
                 message.success('登录成功');
                 if (callBack) callBack();
             } else {
@@ -29,9 +29,6 @@ export default {
             const response = yield call(register, payload);
             // 登录成功
             if (response.code === 1) {
-                /** 设置权限 */
-                setAuthority(response.role);
-                reloadAuthorized(response.role);
                 message.success('注册成功');
                 /** 更新全局信息 */
                 router.push('/login');
@@ -44,6 +41,7 @@ export default {
         * logOut(_, { call }) {
             const response = yield call(logOut);
             if (response.code == 1) {
+                setAuthority();
                 message.success('您已退出');
                 router.push('/login');
             }

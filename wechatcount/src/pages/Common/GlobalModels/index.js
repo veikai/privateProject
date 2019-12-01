@@ -12,6 +12,8 @@ class GlobalModels extends PureComponent {
     /** 构造器 */
     constructor(props) {
         super(props);
+        this.notice = null;
+        this.noticeInterval = null;
         this.getNotice();
     }
 
@@ -19,8 +21,8 @@ class GlobalModels extends PureComponent {
     getNotice = () => {
         /** 判断是否要生成定时器 */
         if (!this.notice && !window.isLoginNoticed) {
-            this.getNotice = setInterval(async () => {
-                const { send = 0, content = '欢迎' } = await getLoginSuccessContent();
+            this.noticeInterval = setInterval(async () => {
+                const { code = 0, send = 0, content = '欢迎' } = await getLoginSuccessContent();
                 if (send == 1) {
                     this.notice = notification.info({
                         className: 'loginSuccess',
@@ -29,9 +31,13 @@ class GlobalModels extends PureComponent {
                         description: content,
                         placement: 'bottomRight',
                     });
-                    clearInterval(this.getNotice);
-                    this.getNotice = null;
+                    clearInterval(this.noticeInterval);
+                    this.noticeInterval = true;
                     window.isLoginNoticed = true;
+                    return true;
+                } if (code == -1) {
+                    clearInterval(this.noticeInterval);
+                    this.noticeInterval = true;
                     return true;
                 }
                 return true;

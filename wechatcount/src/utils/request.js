@@ -83,9 +83,10 @@ request.use(async (ctx, next) => {
     await next();
     const { res } = ctx;
     if (res.code == -1) {
-        notification.error({ message: '登录失效,重新登录' });
+        if (!window.isRequested) notification.error({ message: '登录失效,重新登录' });
         router.push('/login');
     }
+    window.isRequested = true;
 });
 
 

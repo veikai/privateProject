@@ -1,5 +1,6 @@
 import { message } from 'antd';
 import moment from 'moment';
+import copyText from 'copy-to-clipboard';
 
 /**
  * isEmpty [判断一个值是否为空]
@@ -118,19 +119,19 @@ export function clearStorage(name) {
  * @return {boolean} copyResult [复制是否成功]
  */
 export function copy(content = '') {
-    // 创建input标签存放需要复制的文字
-    const oInput = document.createElement('input');
-    // 把文字放进input中，供复制
-    oInput.value = content;
-    document.body.appendChild(oInput);
-    // 选中创建的input
-    oInput.select();
-    // 执行复制方法， 该方法返回bool类型的结果，告诉我们是否复制成功
-    const copyResult = document.execCommand('copy');
-    // 操作中完成后 从Dom中删除创建的input
-    document.body.removeChild(oInput);
+    // // 创建input标签存放需要复制的文字
+    // const oInput = document.createElement('input');
+    // // 把文字放进input中，供复制
+    // oInput.value = content;
+    // document.body.appendChild(oInput);
+    // // 选中创建的input
+    // oInput.select();
+    // // 执行复制方法， 该方法返回bool类型的结果，告诉我们是否复制成功
+    // const copyResult = document.execCommand('copy');
+    // // 操作中完成后 从Dom中删除创建的input
+    // document.body.removeChild(oInput);
     // 根据返回的复制结果 给用户不同的提示
-    if (copyResult) message.success('分享链接已复制到剪切板');
+    if (copyText(content)) message.success('分享链接已复制到剪切板');
     else message.success('复制失败');
 }
 
