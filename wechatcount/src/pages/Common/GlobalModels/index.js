@@ -12,30 +12,31 @@ class GlobalModels extends PureComponent {
     /** 构造器 */
     constructor(props) {
         super(props);
-        this.state = { isConfirmed: false };
-        this.onLoad();
+        this.getNotice();
     }
 
-    /** 初始化 */
-    onLoad = () => {
-        const { isConfirmed } = this.state;
-        if (!isConfirmed) {
-            setTimeout(async () => {
+    /** 获取通知信息 */
+    getNotice = () => {
+        /** 判断是否要生成定时器 */
+        if (!this.notice && !window.isLoginNoticed) {
+            this.getNotice = setInterval(async () => {
                 const { send = 0, content = '欢迎' } = await getLoginSuccessContent();
                 if (send == 1) {
-                    notification.info({
+                    this.notice = notification.info({
                         className: 'loginSuccess',
                         message: '通知',
                         duration: null,
                         description: content,
                         placement: 'bottomRight',
                     });
-                    return this.setState({ isConfirmed: true });
+                    clearInterval(this.getNotice);
+                    this.getNotice = null;
+                    window.isLoginNoticed = true;
+                    return true;
                 }
                 return true;
             }, 2000);
         }
-        return true;
     }
 
     /** 组件挂载 */
