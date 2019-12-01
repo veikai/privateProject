@@ -9,7 +9,7 @@ module.exports = {
     menu: { disableLocal: false },
     title: '微信计数器',
     pwa: false,
-    logo: './wechat.png',
+    logo: './account.png',
     // logo: './app.png',
     // icon: '//q.zvk9.com/393/2019/04/21/aiyongtonpal_1555833832000.png',
     // Your custom iconfont Symbol script Url

@@ -175,8 +175,11 @@ class List extends PureComponent {
             onOk: async () => {
                 const { enterCategory } = this.state;
                 const { code = 0, err = '' } = await enterCategoryService({ name: enterCategory, ids: selected });
-                if (code == 1) message.success('加入成功');
-                else message.warning(err);
+                if (code == 1) {
+                    message.success('加入成功');
+                    return setTimeout(() => this.onLoad(), 1000);
+                }
+                return message.warning(err);
             },
         });
     }

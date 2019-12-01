@@ -195,7 +195,7 @@ export default class GlobalHeaderRight extends PureComponent {
                     // className={`${styles.action}`}
                     onClick={() => window.open('http://119.23.79.73:9527/lancher.exe')}
                 >
-                    下载软件
+                    软件下载
                 </Button>
                 <HeaderDropdown
                     overlay={menu}

@@ -27,12 +27,14 @@ class LoginSuccess extends PureComponent {
         const { dispatch } = this.props;
         const isLogined = getStorage('isLogined');
         if (isEmpty(isLogined)) {
-            setStorage('isLogined', true);
             setTimeout(async () => {
                 const { send = 0, content = '欢迎' } = await getLoginSuccessContent();
-                if (send == 1) await this.setState({ content });
-                dispatch({ type: 'common/setState', payload: { loginSuccessVisible: true } });
-            }, 1000);
+                if (send == 1) {
+                    setStorage('isLogined', true);
+                    await this.setState({ content });
+                    dispatch({ type: 'common/setState', payload: { loginSuccessVisible: true } });
+                }
+            }, 1200);
         }
     }
 
