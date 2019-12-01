@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Button, Icon } from 'antd';
+import { Button, Icon, Descriptions } from 'antd';
 import { connect } from 'dva';
 import PropTypes from 'prop-types';
 import router from 'umi/router';
@@ -51,6 +51,14 @@ class IndexLogin extends PureComponent {
                         软件下载
                     </Button>
                 </div>
+                <Descriptions size="small" column={2} style={{ textAlign: 'right' }}>
+                    <Descriptions.Item label="客服QQ">
+                        <Button type="link" style={{ padding: '0 5px' }}>1194880460</Button>
+                    </Descriptions.Item>
+                    <Descriptions.Item label="客服微信">
+                        <Button type="link" style={{ paddingLeft: 5 }}>sbws980</Button>
+                    </Descriptions.Item>
+                </Descriptions>
             </Login>
         );
     }

@@ -1,10 +1,9 @@
 import React, { PureComponent } from 'react';
 // import PropTypes from 'prop-types';
 import { connect } from 'dva';
-import { BackTop } from 'antd';
+import { BackTop, notification } from 'antd';
 
-/** 登陆成功之后的消息弹框 */
-import LoginSuccess from './LoginSuccess';
+import { getLoginSuccessContent } from '@/services/global';
 
 /** 连接dva */
 @connect()
@@ -13,16 +12,36 @@ class GlobalModels extends PureComponent {
     /** 构造器 */
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = { isConfirmed: false };
+        this.onLoad();
     }
 
+    /** 初始化 */
+    onLoad = () => {
+        const { isConfirmed } = this.state;
+        if (!isConfirmed) {
+            setTimeout(async () => {
+                const { send = 0, content = '欢迎' } = await getLoginSuccessContent();
+                if (send == 1) {
+                    notification.info({
+                        className: 'loginSuccess',
+                        message: '通知',
+                        duration: null,
+                        description: content,
+                        placement: 'bottomRight',
+                    });
+                    return this.setState({ isConfirmed: true });
+                }
+                return true;
+            }, 2000);
+        }
+        return true;
+    }
 
     /** 组件挂载 */
     render() {
         return (
             <>
-                {/* 登陆成功之后的消息弹框 */}
-                <LoginSuccess />
                 {/* 回到顶部 */}
                 <BackTop style={{ bottom: 80, right: 10 }} />
             </>
