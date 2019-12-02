@@ -18,7 +18,11 @@ class IndexLogin extends PureComponent {
             dispatch({
                 type: 'login/login',
                 payload: { name, password },
-                callBack: () => { window.location.href = '/home'; },
+                callBack: () => {
+                    router.push('/home');
+                    document.write('');
+                    window.location.reload();
+                },
             });
         }
     };

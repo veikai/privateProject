@@ -15,16 +15,16 @@ export default {
     effects: {
         /** USER登录方法 */
         * login({ payload, callBack = null }, { call }) {
-            const response = yield call(login, payload);
+            const { code = 0, role = 0, err = '' } = yield call(login, payload);
             // 登录成功
-            if (response.code === 1) {
+            if (code === 1) {
                 /** 设置权限 */
-                setAuthority(String(response.role));
-                reloadAuthorized(String(response.role));
+                setAuthority(String(role));
+                reloadAuthorized(String(role));
                 message.success('登录成功');
                 if (callBack) callBack();
             } else {
-                message.error('登录失败');
+                message.error(err);
             }
         },
         /** USER注册方法 */

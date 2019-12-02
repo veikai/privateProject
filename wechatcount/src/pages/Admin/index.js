@@ -46,8 +46,9 @@ class Admin extends PureComponent {
         this.state = {
             states: [
                 { value: 0, name: '重置', color: '#999' },
-                { value: 1, name: '解冻', color: '#87d068' },
+                { value: 1, name: '正常', color: '#87d068' },
                 { value: 2, name: '冻结', color: '#f50' },
+                { value: 3, name: '到期', color: '#999' },
             ],
             list: [],
             loading: false,
@@ -132,6 +133,7 @@ class Admin extends PureComponent {
                             <Option value="">全部</Option>
                             <Option value="1">正常</Option>
                             <Option value="2">冻结</Option>
+                            <Option value="3">到期</Option>
                         </Select>
                     </Form.Item>
                     <Form.Item>

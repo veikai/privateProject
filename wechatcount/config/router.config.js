@@ -42,7 +42,7 @@ export default [
                 path: '/list/wechat',
                 name: 'wechat',
                 icon: 'wechat',
-                authority: ['2'],
+                authority: ['1', '2'],
                 component: './List/Wechat',
             },
             {
