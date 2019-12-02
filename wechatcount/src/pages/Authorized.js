@@ -13,7 +13,7 @@ function AuthComponent({ children }) {
     // const isLogin = auth && auth[0] !== 'guest';// 是否登录的判断段条件
     return (
         <Authorized
-            // authority={['1', '2']}// 登录条件
+            authority={['1', '2']}// 登录条件
             noMatch={<Redirect to="/login" />}// 不满足上面的条件 就
         >
             {children}

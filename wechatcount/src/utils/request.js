@@ -5,6 +5,7 @@
 import { extend } from 'umi-request';
 import { notification } from 'antd';
 import router from 'umi/router';
+import { clearStorage } from '@/utils/common';
 
 const codeMessage = {
     200: '服务器成功返回请求的数据。',
@@ -34,28 +35,25 @@ const errorHandler = (error) => {
 
     if (status === 401) {
         notification.error({ message: '' });
-        // @HACK
-        /* eslint-disable no-underscore-dangle */
-        window.g_app._store.dispatch({ type: 'tonpalgs/logout' });
+        clearStorage('role');
         router.push('/login');
         return;
     }
-    notification.error({
-        message: `请求错误 ${status}: ${url}`,
-        description: errortext,
-    });
     // environment should not be used
     if (status === 403) {
         router.push('/exception/403');
-        return;
     }
     if (status <= 504 && status >= 500) {
         router.push('/exception/500');
-        return;
     }
     if (status >= 404 && status < 422) {
         router.push('/exception/404');
     }
+    // eslint-disable-next-line consistent-return
+    return notification.error({
+        message: `请求错误 ${status}: ${url}`,
+        description: errortext,
+    });
 };
 
 /**

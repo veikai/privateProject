@@ -7,7 +7,10 @@ import { reloadAuthorized } from '@/utils/Authorized';
 export default {
     namespace: 'login',
 
-    state: { },
+    state: {
+        /** 用户角色 */
+        role: 0,
+    },
 
     effects: {
         /** USER登录方法 */
@@ -41,7 +44,7 @@ export default {
         * logOut(_, { call }) {
             const response = yield call(logOut);
             if (response.code == 1) {
-                setAuthority();
+                setAuthority(0);
                 message.success('您已退出');
                 router.push('/login');
             }

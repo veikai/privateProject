@@ -1,6 +1,7 @@
 export default {
     'menu.home': '首页',
     'menu.qq': 'QQ',
+    'menu.admin': '账号管理',
     'menu.wechat': '微信',
     'menu.login': '登录',
     'menu.register': '注册',

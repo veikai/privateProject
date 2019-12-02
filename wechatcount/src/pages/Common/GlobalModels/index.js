@@ -3,7 +3,9 @@ import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { BackTop, notification } from 'antd';
 
+import { isArray } from 'util';
 import { getLoginSuccessContent } from '@/services/global';
+import { getStorage, jsonDecode } from '@/utils/common';
 
 /** 连接dva */
 @connect()
@@ -21,6 +23,10 @@ class GlobalModels extends PureComponent {
     getNotice = () => {
         /** 判断是否要生成定时器 */
         if (!this.notice && !window.isLoginNoticed) {
+            const role = jsonDecode(getStorage('role'));
+            /** 如果是管理员 */
+            if (isArray(role) && role[0] == 1) return false;
+            /** 如果是普通用户 */
             this.noticeInterval = setInterval(async () => {
                 const { code = 0, send = 0, content = '欢迎' } = await getLoginSuccessContent();
                 if (send == 1) {
@@ -43,6 +49,7 @@ class GlobalModels extends PureComponent {
                 return true;
             }, 2000);
         }
+        return true;
     }
 
     /** 组件挂载 */

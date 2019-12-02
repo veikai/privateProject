@@ -4,7 +4,7 @@ import { connect } from 'dva';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { runTimeFormat, isEmpty, copy, emptyOrBlank } from '@/utils/common';
-import { getShareUrl, delOffline, getFansCount, addCategory, getCategorys, enterCategoryService } from '@/services/list';
+import { getShareUrl, delOffline, getFansCount, addCategory, getCategorys, enterCategoryService, setTag } from '@/services/list';
 
 import Categorys from './Categorys';
 
@@ -21,7 +21,7 @@ const { success, confirm } = Modal;
     loading: loading.models.list,
 }))
 /** 账号登录/手机号登录 */
-class List extends PureComponent {
+class Wechat extends PureComponent {
     /** table标题 */
     columns = [
         { title: '编号', align: 'center', dataIndex: 'wechatid', width: 200 },
@@ -58,7 +58,7 @@ class List extends PureComponent {
             key: 'action',
             align: 'center',
             width: 190,
-            render: () => <Button icon="star" type="link" size="small">标注</Button>,
+            render: (text, record) => <Button icon="star" type="link" size="small" onClick={() => this.setTag(record.wxid, record.tag)}>标注</Button>,
         },
     ]
 
@@ -184,6 +184,33 @@ class List extends PureComponent {
         });
     }
 
+    /** 编辑标注 */
+    setTag = (id = 0, name = '') => {
+        confirm({
+            title: '编辑用户信息',
+            okText: '确认',
+            cancelText: '取消',
+            maskClosable: true,
+            content: (
+                <Form layout="inline">
+                    <Form.Item label="标注">
+                        <Input defaultValue={name} onChange={e => this.setState({ tagName: e.target.value })} />
+                    </Form.Item>
+                </Form>
+            ),
+            onOk: async () => {
+                const { tagName = '' } = this.state;
+                const { code = 0, err = '' } = await setTag({ id, name: tagName });
+                if (code == 1) {
+                    message.success('编辑成功');
+                    return setTimeout(() => this.onLoad(), 1000);
+                }
+                message.error(err);
+                return true;
+            },
+        });
+    }
+
     /** 组件挂载 */
     render() {
         const { list = [], loading } = this.props;
@@ -225,10 +252,10 @@ class List extends PureComponent {
                         onChange: val => this.setState({ selected: val }),
                     }}
                     pagination={{
-                        onChange: val => this.onLoad(val),
                         pageSize: 10,
                         defaultCurrent: 1,
                         total: Number(list.length),
+                        showTotal: () => `共 ${list.length} 条`,
                         size: 'small',
                     }}
                     showQuickJumper
@@ -239,15 +266,15 @@ class List extends PureComponent {
     }
 }
 
-List.defaultProps = {
+Wechat.defaultProps = {
     dispatch: null,
     loading: false,
     list: [],
 };
-List.propTypes = {
+Wechat.propTypes = {
     dispatch: PropTypes.any,
     loading: PropTypes.any,
     list: PropTypes.any,
 };
 
-export default Form.create({ name: 'wechatList' })(List);
+export default Form.create({ name: 'wechatList' })(Wechat);

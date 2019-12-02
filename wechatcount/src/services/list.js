@@ -94,3 +94,17 @@ export async function enterCategoryService(params) {
         data: JSON.stringify({ name, wxids: ids }),
     });
 }
+
+/**
+ * setTag 编辑标注
+ * @author Terrence
+ * @param string id 用户id
+ * @param array ids 微信账号id
+ */
+export async function setTag(params) {
+    const { id = 0, name = '' } = params;
+    return request('http://119.23.79.73:8080/add_tag', {
+        method: 'POST',
+        data: JSON.stringify({ wxid: id, tag: name }),
+    });
+}
