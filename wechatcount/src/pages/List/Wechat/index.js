@@ -30,7 +30,16 @@ class Wechat extends PureComponent {
         { title: '备注', align: 'center', dataIndex: 'remark', width: 200 },
         { title: '标注', align: 'center', dataIndex: 'tag', width: 80 },
         { title: '已加粉', align: 'center', dataIndex: 'fans_count', width: 80 },
-        { title: '上线时间', align: 'center', width: 180, dataIndex: 'login_time', render: text => moment(text).format('YYYY-MM-DD HH:mm:ss') },
+        {
+            title: '上线时间',
+            align: 'center',
+            width: 180,
+            dataIndex: 'login_time',
+            render: (text) => {
+                if (text > 0) return moment(text).format('YYYY-MM-DD HH:mm:ss');
+                return '-';
+            },
+        },
         {
             title: '已运行',
             align: 'center',
@@ -71,6 +80,7 @@ class Wechat extends PureComponent {
                 { name: '在线', color: '#87d068' },
             ],
         };
+        if (!window.initList) window.initList = setInterval(() => this.onLoad(), 6000);
         this.onLoad();
     }
 
@@ -90,7 +100,8 @@ class Wechat extends PureComponent {
 
     /** 删除离线账号 */
     delOffline = async () => {
-        const { code = 0, err = '' } = await delOffline();
+        const { selected = [] } = this.state;
+        const { code = 0, err = '' } = await delOffline({ ids: selected });
         if (code == 1) {
             message.success('删除成功');
             return setTimeout(() => this.onLoad(), 1000);

@@ -52,7 +52,12 @@ export default [
                 authority: ['1'],
                 component: './Admin',
             },
-
+            {
+                path: '/setPassword',
+                name: 'setPassword',
+                hideInMenu: true,
+                component: './Setting/SetPassword',
+            },
             { component: './404.js' },
         ],
     },

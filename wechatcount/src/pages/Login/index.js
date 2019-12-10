@@ -21,7 +21,7 @@ class IndexLogin extends PureComponent {
                 callBack: () => {
                     router.push('/home');
                     document.write('');
-                    window.location.reload();
+                    setTimeout(() => window.location.reload(), 500);
                 },
             });
         }
@@ -50,10 +50,11 @@ class IndexLogin extends PureComponent {
                     <Button type="link" onClick={() => router.push('/login/register')}>立即注册</Button>
                     <Button
                         type="link"
-                        onClick={() => window.open('http://www.51xiaokeai.com/download/lancher.exe')}
+                        onClick={() => window.open('http://www.51xiaokeai.com/download/鲁班计数器.zip')}
                     >
                         软件下载
                     </Button>
+                    <Button type="link" href="./wechatCountUserGuide.pdf" target="_blank">使用说明</Button>
                 </div>
                 <Descriptions size="small" column={2} style={{ textAlign: 'right' }}>
                     <Descriptions.Item label="客服QQ">
@@ -62,6 +63,9 @@ class IndexLogin extends PureComponent {
                     <Descriptions.Item label="客服微信">
                         <Button type="link" style={{ paddingLeft: 5 }}>sbws980</Button>
                     </Descriptions.Item>
+                    {/* <Descriptions.Item label="">
+
+                    </Descriptions.Item> */}
                 </Descriptions>
             </Login>
         );

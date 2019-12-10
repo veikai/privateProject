@@ -37,6 +37,23 @@ export async function register(params) {
     });
 }
 
+/**
+ * setPassword 更改密码
+ * @author Terrence
+ * @param string password [密码]
+ * @param string newPWD [新密码]
+ */
+export async function setPassword(params) {
+    const { newPWD = '', password = '' } = params;
+    return request('http://119.23.79.73:8080/update_password', {
+        method: 'POST',
+        data: JSON.stringify({
+            old_pwd: password,
+            new_pwd: newPWD,
+        }),
+    });
+}
+
 
 /**
  * logOut 退出登录

@@ -33,6 +33,9 @@ const errorHandler = (error) => {
     const errortext = codeMessage[response.status] || response.statusText;
     const { status, url } = response;
 
+    clearInterval(window.initList);
+    window.initList = null;
+
     if (status === 401) {
         notification.error({ message: '' });
         clearStorage('role');
@@ -81,6 +84,8 @@ request.use(async (ctx, next) => {
     await next();
     const { res } = ctx;
     if (res.code == -1) {
+        clearInterval(window.initList);
+        window.initList = null;
         if (!window.isRequested) notification.error({ message: '登录失效,重新登录' });
         router.push('/login');
     }

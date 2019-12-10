@@ -91,6 +91,10 @@ export default class GlobalHeaderRight extends PureComponent {
                     <Icon type="logout" />
                     <FormattedMessage id="menu.account.logout" defaultMessage="logout" />
                 </Menu.Item>
+                <Menu.Item key="setPassword">
+                    <Icon type="edit" />
+                    <FormattedMessage id="menu.account.setPassword" defaultMessage="setPassword" />
+                </Menu.Item>
             </Menu>
         );
         const noticeData = this.getNoticeData();
@@ -193,10 +197,11 @@ export default class GlobalHeaderRight extends PureComponent {
                     type="danger"
                     style={{ marginRight: 10, height: 32 }}
                     // className={`${styles.action}`}
-                    onClick={() => window.open('http://www.51xiaokeai.com/download/lancher.exe')}
+                    onClick={() => window.open('http://www.51xiaokeai.com/download/鲁班计数器.zip')}
                 >
                     软件下载
                 </Button>
+                <Button type="primary" href="./wechatCountUserGuide.pdf" target="_blank">使用说明</Button>
                 <HeaderDropdown
                     overlay={menu}
                 >

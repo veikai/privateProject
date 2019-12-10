@@ -22,7 +22,7 @@ export default {
                 setAuthority(String(role));
                 reloadAuthorized(String(role));
                 message.success('登录成功');
-                if (callBack) callBack();
+                if (callBack) yield callBack();
             } else {
                 message.error(err);
             }

@@ -29,9 +29,14 @@ export async function getShareUrl() {
 /**
  * delOffline 删除离线账号
  * @author Terrence
+ * @param array ids 账号ID
  */
-export async function delOffline() {
-    return request('http://119.23.79.73:8080/delete_offline_data', { method: 'POST' });
+export async function delOffline(params) {
+    const { ids = [] } = params;
+    return request('http://119.23.79.73:8080/delete_offline_data', {
+        method: 'POST',
+        data: JSON.stringify({ wxids: ids }),
+    });
 }
 
 /**

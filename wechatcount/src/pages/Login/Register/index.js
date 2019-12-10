@@ -46,17 +46,38 @@ class LoginRegister extends PureComponent {
                         name="name"
                         placeholder="输入用户名"
                         prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                        rules={[{ required: true, message: '请输入用户名' }]}
+                        rules={[{
+                            pattern: /^[0-9a-zA-Z]+$/ig,
+                            required: true,
+                            message: '用户名不能为空,只能是英文和数字',
+                        }]}
                     />
                     <Mobile name="mobile" placeholder="请输入电话" rules={[{ required: true, message: '请输入电话' }]} />
-                    <Password name="password" placeholder="输入密码" />
-                    <Password name="confirmPassword" placeholder="再次输入密码" />
+                    <Password
+                        name="password"
+                        placeholder="输入密码"
+                        rules={[{
+                            pattern: /^[0-9a-zA-Z]+$/ig,
+                            required: true,
+                            message: '密码不能为空,只能是英文和数字',
+                        }]}
+                    />
+                    <Password
+                        name="confirmPassword"
+                        placeholder="再次输入密码"
+                        rules={[{
+                            pattern: /^[0-9a-zA-Z]+$/ig,
+                            required: true,
+                            message: '密码不能为空,只能是英文和数字',
+                        }]}
+                    />
                     <Submit>注册</Submit>
                     <div style={{ float: 'right' }}>
                         {'已有账号？'}
                         <Button type="link" onClick={() => router.push({ pathname: '/login' })}>
                             {'立即登录'}
                         </Button>
+                        <Button type="link" href="./wechatCountUserGuide.pdf" target="_blank">使用说明</Button>
                     </div>
                 </Tab>
             </Login>

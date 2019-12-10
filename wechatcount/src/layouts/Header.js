@@ -61,6 +61,9 @@ class HeaderView extends Component {
         if (key === 'logout') {
             dispatch({ type: 'login/logOut' });
         }
+        if (key === 'setPassword') {
+            router.push('/setPassword');
+        }
     };
 
     handleNoticeVisibleChange = (visible) => {

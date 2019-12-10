@@ -1,11 +1,9 @@
 import React, { PureComponent } from 'react';
 // import PropTypes from 'prop-types';
 import { connect } from 'dva';
-import { BackTop, notification } from 'antd';
+import { BackTop } from 'antd';
 
-import { isArray } from 'util';
-import { getLoginSuccessContent } from '@/services/global';
-import { getStorage, jsonDecode } from '@/utils/common';
+import Notice from './Notice';
 
 /** 连接dva */
 @connect()
@@ -14,42 +12,7 @@ class GlobalModels extends PureComponent {
     /** 构造器 */
     constructor(props) {
         super(props);
-        this.notice = null;
-        this.noticeInterval = null;
-        this.getNotice();
-    }
-
-    /** 获取通知信息 */
-    getNotice = () => {
-        /** 判断是否要生成定时器 */
-        if (!this.notice && !window.isLoginNoticed) {
-            const role = jsonDecode(getStorage('role'));
-            /** 如果是管理员 */
-            if (isArray(role) && role[0] == 1) return false;
-            /** 如果是普通用户 */
-            this.noticeInterval = setInterval(async () => {
-                const { code = 0, send = 0, content = '欢迎' } = await getLoginSuccessContent();
-                if (send == 1) {
-                    this.notice = notification.info({
-                        className: 'loginSuccess',
-                        message: '通知',
-                        duration: null,
-                        description: content,
-                        placement: 'bottomRight',
-                    });
-                    clearInterval(this.noticeInterval);
-                    this.noticeInterval = true;
-                    window.isLoginNoticed = true;
-                    return true;
-                } if (code == -1) {
-                    clearInterval(this.noticeInterval);
-                    this.noticeInterval = true;
-                    return true;
-                }
-                return true;
-            }, 2000);
-        }
-        return true;
+        this.state = {};
     }
 
     /** 组件挂载 */
@@ -58,6 +21,8 @@ class GlobalModels extends PureComponent {
             <>
                 {/* 回到顶部 */}
                 <BackTop style={{ bottom: 80, right: 10 }} />
+                {/* 提示框 */}
+                <Notice />
             </>
         );
     }
